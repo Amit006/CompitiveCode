@@ -32,7 +32,6 @@ function main() {
 
 
 if(rotateTime){
-
 let rotationArry = actualArr.slice(firstInput[0] - rotateTime, firstInput[0])
 
     console.log([...rotationArry, ...actualArr.slice(0, firstInput[0] - rotateTime)].join(' ')+' ')
