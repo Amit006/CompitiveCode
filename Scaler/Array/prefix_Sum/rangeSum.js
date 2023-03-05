@@ -4,21 +4,35 @@ function rangeSum (A, B){
     let prefixSum = [A[0]];
     for(let i=1; i <= maxRage; i++) prefixSum.push(prefixSum[i-1]+A[i]);
     let returnArray = [Number(prefixSum[maxRage]) - Number(lowRange ? prefixSum[lowRange-1]: lowRange)];
-    B.slice(1,B.length).forEach(element => {
-        let upperLimit = element[1];
-        let lowerLimit = element[0];
-        if(upperLimit >  maxRage){
+    for(let i=1; i <= B.length; i++){
+      let upperLimit = B[i][1];
+      let lowerLimit = B[i][0];
+      if(upperLimit >  maxRage){
         for(let l = maxRage+1; l <= upperLimit; l++){
             let sum = prefixSum[l-1]+A[l]
             prefixSum.push(sum);
         }
         returnArray.push(Number(prefixSum[upperLimit]) - Number( lowerLimit ? prefixSum[lowerLimit-1]: lowerLimit));
         maxRage = upperLimit;
-      } else returnArray.push(Number(prefixSum[upperLimit])-Number(lowerLimit? prefixSum[lowerLimit-1] : lowerLimit));       
-     });
+      } else returnArray.push(Number(prefixSum[upperLimit])-Number(lowerLimit? prefixSum[lowerLimit-1] : lowerLimit));
+    }
+
     return returnArray; 
 }
 
+
+    // B.slice(1,B.length).forEach(element => {
+    //     let upperLimit = element[1];
+    //     let lowerLimit = element[0];
+    //     if(upperLimit >  maxRage){
+    //     for(let l = maxRage+1; l <= upperLimit; l++){
+    //         let sum = prefixSum[l-1]+A[l]
+    //         prefixSum.push(sum);
+    //     }
+    //     returnArray.push(Number(prefixSum[upperLimit]) - Number( lowerLimit ? prefixSum[lowerLimit-1]: lowerLimit));
+    //     maxRage = upperLimit;
+    //   } else returnArray.push(Number(prefixSum[upperLimit])-Number(lowerLimit? prefixSum[lowerLimit-1] : lowerLimit));       
+    //  });
 
 
 // A = [1, 2, 3, 4, 5]
