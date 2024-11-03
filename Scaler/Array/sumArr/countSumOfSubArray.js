@@ -1,4 +1,3 @@
-
 /* 
 Q. Counting Subarrays Easy :- (Solved)
 
@@ -47,8 +46,6 @@ Explanation 2:
 
 */
 
-
-
 const A = [2, 5, 6];
 const B = 10;
 
@@ -56,21 +53,21 @@ const A2 = [1, 11, 2, 3, 15];
 const B2 = 10;
 
 // find all possible sub array with sum less then B
-const  findSubArrayLessThenB = (A, B) => {
-    let allSubarray = [];
-    for (let i = 0; i < A.length; i++) {
-      let subArrySum = Number(0);
-      let subArry = [];
-      for (let j = i; j < A.length; j++) {
-        subArrySum += Number(A[j]);
-        if (subArrySum < B) {
-          subArry.push(A[j]);
-          allSubarray.push([...subArry]);
-        }
+const findSubArrayLessThenB = (A, B) => {
+  let allSubarray = [];
+  for (let i = 0; i < A.length; i++) {
+    let subArrySum = Number(0);
+    let subArry = [];
+    for (let j = i; j < A.length; j++) {
+      subArrySum += Number(A[j]);
+      if (subArrySum < B) {
+        subArry.push(A[j]);
+        allSubarray.push([...subArry]);
       }
     }
-    console.log(allSubarray);
-}
+  }
+  console.log(allSubarray);
+};
 
 // findSubArrayLessThenB(A, B);
 // findSubArrayLessThenB(A2, B2);
@@ -81,54 +78,51 @@ const  findSubArrayLessThenB = (A, B) => {
  [ [ 1 ], [ 2 ], [ 2, 3 ], [ 3 ] ]
  */
 
- const countSubArrayLessThenB = (A, B) => {
-    let countNumberOfSumArray = Number(0);
-    for (let i = 0; i < A.length; i++) {
-      let subArrySum = Number(0);
-      for (let j = i; j < A.length; j++) {
-        subArrySum += Number(A[j]);
-        if (subArrySum < B) {
-          countNumberOfSumArray += Number(1);
-        }
+const countSubArrayLessThenB = (A, B) => {
+  let countNumberOfSumArray = Number(0);
+  for (let i = 0; i < A.length; i++) {
+    let subArrySum = Number(0);
+    for (let j = i; j < A.length; j++) {
+      subArrySum += Number(A[j]);
+      if (subArrySum < B) {
+        countNumberOfSumArray += Number(1);
       }
     }
-    return countNumberOfSumArray;
-}
+  }
+  return countNumberOfSumArray;
+};
 
 // console.log(countSubArrayLessThenB(A, B));
 // console.log(countSubArrayLessThenB(A2, B2))
 
-
 // An effcient approch O(n)
-// Slinging window approch 
+// Slinging window approch
 
-const countSubarraysLessThanB = (arr, B) => {
-    let count = 0;
-    let start = 0;
-    let sum = 0;
+const countSubarraysLessThanB = (A, B) => {
+  let count = BigInt(0);
+  let start = 0; // This can remain a normal number
+  let sum = BigInt(0);
 
-    for (let end = 0; end < arr.length; end++) {
-        sum += arr[end];
+  for (let end = 0; end < A.length; end++) {
+    sum += BigInt(A[end]);
 
-        while (sum >= B && start <= end) {
-            sum -= arr[start];
-            start++;
-        }
-        
-        
-        count += (end - start + 1);
-        console.log('start: ', start, ' end: ', end, ' sum: ', sum, ' count: ', count);
+    // Convert B to BigInt for comparison
+    while (sum >= BigInt(B) && start <= end) {
+      sum -= BigInt(A[start]);
+      start++;
     }
 
-    return count;
-}
+    count += BigInt(end - start + 1); // Correctly convert entire expression
+  }
 
+  return Number(count);
+};
 
 // output
 // start:  0  end:  0  sum:  0  count:  1
 // start:  0  end:  1  sum:  2  count:  3
 // start:  2  end:  2  sum:  6  count:  4
-// 4 
+// 4
 // start:  0  end:  0  sum:  1  count:  1
 // start:  2  end:  1  sum:  0  count:  1
 // start:  2  end:  2  sum:  2  count:  2
