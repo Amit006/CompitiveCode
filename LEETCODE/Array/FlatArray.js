@@ -16,4 +16,13 @@ function flat(parent,element){
 
 const flatenArray = flat([],input);
 
+
+
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.apply([], Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
+
 console.log(' flatenArray: ', flatenArray);
+console.log(' flatenArray: reduce ', flatten(input));
