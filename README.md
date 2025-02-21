@@ -1,1 +1,2 @@
-# CompitiveCode
+# Compitive Codeing solution with javscript
+ 
