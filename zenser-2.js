@@ -5,20 +5,18 @@ const store = {
     show: false
 };
 
-let conaText = useContext(reduser);
+let context = useContext(reduser);
 
 let reduser = useReduser(store)
 
-conaText.producser = () => {
+context.producser = () => {
 
 useEffect(() => {
-axios.fetch().then(res => {
+axios.fetch().then(res => {})
 })
-}
 
  return  { store , dispatch };
 }
 
 
-return (    
-conaText.conSumer
+return (context.consumer)
