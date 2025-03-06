@@ -9,7 +9,7 @@ vector<vector<int>> matrixMultiplication(vector<vector<int>> A, vector<vector<in
   int N = A.size();
   if (N == 0)
     return {};
-  int columnLen = B.size();
+  int columnLen = B[0].size();
   vector<vector<int>> result(N, vector<int>(columnLen, 0));
 
   for (int i = 0; i < N; i++){
