@@ -3,21 +3,22 @@
 
 using namespace std;
 
-vector<vector<int>> rotateMatrix(const vector<vector<int>>& matrix) {
-    int n = matrix.size();
-    vector<vector<int>> result(n, vector<int>(n, 0));
-
+void rotateMatrix(vector<vector<int>>& A) {
+    int n = A.size();
+    // Transpose the matrix
     for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n; ++j) {
-            result[i][n - j - 1] = matrix[j][i];
+        for (int j = i; j < n; ++j) {
+            swap(A[i][j], A[j][i]);
         }
     }
-
-    return result;
+    // Reverse each row
+    for (int i = 0; i < n; ++i) {
+        reverse(A[i].begin(), A[i].end());
+    }
 }
 
-void printMatrix(const vector<vector<int>>& matrix) {
-    for (const auto& row : matrix) {
+void printMatrix(const vector<vector<int>>& A) {
+    for (const auto& row : A) {
         for (int val : row) {
             cout << val << " ";
         }
@@ -26,22 +27,21 @@ void printMatrix(const vector<vector<int>>& matrix) {
 }
 
 int main() {
-    vector<vector<int>> input1 = {
+    vector<vector<int>> Input1 = {
         {1, 2},
         {3, 4}
     };
-
-    vector<vector<int>> input2 = {
+    vector<vector<int>> Input2 = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
     };
 
-    printMatrix(rotateMatrix(input1)); // [[3, 1], [4, 2]]
-    cout << endl;
+    rotateMatrix(Input1);
+    printMatrix(Input1); // Output: 3 1 4 2
 
-    printMatrix(rotateMatrix(input2)); // [[7, 4, 1], [8, 5, 2], [9, 6, 3]]
-    cout << endl;
+    rotateMatrix(Input2);
+    printMatrix(Input2); // Output: 7 4 1 8 5 2 9 6 3
 
     return 0;
 }
