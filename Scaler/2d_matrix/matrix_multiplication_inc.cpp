@@ -4,7 +4,7 @@
 
 using namespace std;
 
-vector<vector<int>> matrixUltiplication(vector<vector<int>> A, vector<vector<int>> B)
+vector<vector<int>> matrixMultiplication(vector<vector<int>> A, vector<vector<int>> B)
 {
   int N = A.size();
   if (N == 0)
@@ -29,7 +29,7 @@ int main()
   vector<vector<int>> A = {{1, 2}, {3, 4}};
   vector<vector<int>> B = {{5, 6}, {7, 8}};
 
-  vector<vector<int>> result = matrixUltiplication(A, B);
+  vector<vector<int>> result = matrixMultiplication(A, B);
   for (auto item : result)
   {
     for (auto i : item)
