@@ -31,6 +31,7 @@ int longestOnes(string A) {
         }
     }
 
+    // Check if there are no '0's in the string
     if (A.find('0') == string::npos) {
         return ones;
     }
