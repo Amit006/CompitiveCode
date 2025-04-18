@@ -32,6 +32,7 @@ Perfect for developers preparing for coding interviews or improving their proble
   - Python (Primary)
   - Java
   - C++
+  - JavaScript
 - **Topics**:
   - Arrays & Strings
   - Dynamic Programming
