@@ -38,7 +38,7 @@ console.log('Suming , All subarray while Lopping: - ',sumAllSubArrayNewApproch([
 const sumOfAllArrayInContribution = (A) => {
     let allSubArraySum = BigInt(0);
     for(let i=0; i<A.length; i++){
-        allSubArraySum += BigInt(A[i]) * BigInt((i+1)*(A.length-i));
+        allSubArraySum += BigInt(A[i]) * BigInt((i+1)*(A.length-i)); // what is  the formula ? i* (i+1) * (n-i)
     }
     return allSubArraySum;
 
