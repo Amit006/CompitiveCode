@@ -1,4 +1,5 @@
 
+// O(n) solution
 const countSubarrays = function(nums, minK, maxK) {
     let minIndex = -1;
     let maxIndex = -1;
@@ -15,6 +16,7 @@ const countSubarrays = function(nums, minK, maxK) {
         if (nums[i] === maxK) {
             maxIndex = i;
         }
+
         result += Math.max(0, Math.min(minIndex, maxIndex) - lastInvalidIndex);
     }
 
@@ -22,9 +24,33 @@ const countSubarrays = function(nums, minK, maxK) {
 }
 
 console.log(countSubarrays([1,3,5,2,7,5], 1, 5)); // 2
-console.log(countSubarrays([1,2,3,4], 1, 4)); // 10
-console.log(countSubarrays([1,2,3,4], 2, 3)); // 6
+// console.log(countSubarrays([1,2,3,4], 1, 4)); // 10
+// console.log(countSubarrays([1,2,3,4], 2, 3)); // 6
 
+
+
+// O(n*2) solution
+const countSubarrays2 =  function(nums, minK, maxK) {
+    let result = [];
+
+    for (let i = 0; i < nums.length; i++) {
+        for (let j = i; j < nums.length; j++) {
+            let subArray = nums.slice(i, j + 1);
+            let min = Math.min(...subArray);
+            let max = Math.max(...subArray);
+
+            if (min === minK && max === maxK) {
+                result.push(subArray);
+            }
+        }
+    }
+
+    return result.length;
+}
+
+
+
+console.log(countSubarrays2([1,3,5,2,7,5], 1, 5)); // 2
 
 /*
 
