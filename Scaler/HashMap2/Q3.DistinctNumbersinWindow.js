@@ -55,6 +55,7 @@ console.log(distinctNumbersInWindow2(A, B)); // [3, 4, 4]
 // Output: [3, 4, 4]
 
 
+// O(n^2) solution
 const  distinctNumbersInWindow3 = (A, B) => {
     const n = A.length;
     const result = [];
