@@ -7,6 +7,8 @@
 
 A curated collection of solutions to **LeetCode**, **Codeforces**, **HackerRank**, and other competitive programming challenges. Focused on efficiency, readability, and best practices for coding interviews and competitions.
 
+![LeetCode Stats](https://leetcode.card.workers.dev/Amit006?theme=auto&font=source_code_pro&extension=activity)
+
 ---
 
 ## 📌 Overview
