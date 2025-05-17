@@ -7,6 +7,13 @@
 
 A curated collection of solutions to **LeetCode**, **Codeforces**, **HackerRank**, and other competitive programming challenges. Focused on efficiency, readability, and best practices for coding interviews and competitions.
 
+# LeetCode Dashboard 🚀
+
+[![LeetCode Stats](https://leetcode-stats-six.vercel.app/api?username=Amit006&theme=light)](https://leetcode.com/Amit006/)
+
+![image](https://github.com/user-attachments/assets/f524a96a-a985-46ad-948c-a1da1923c0b9)
+
+
 ---
 
 ## 📌 Overview
