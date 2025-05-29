@@ -24,3 +24,18 @@ let  B1 = 5
 
 console.log(pairsWithGivenXor(A, A.length, B)); // Output: 2
 console.log(pairsWithGivenXor(A1, A1.length, B1)); // Output: 0
+
+
+// faster then previous solution
+// This solution uses a Set to store unique elements and checks for complements
+const pairsWithGivenXor2 = (arr, n, k) => {
+      const uniqueSet = new Set(A);
+        let count = 0;
+        for (let i of uniqueSet) {
+            const complement = B ^ i;
+            if (uniqueSet.has(complement)) count++;
+        }
+        return count / 2;
+    }
+console.log(pairsWithGivenXor2(A, A.length, B)); // Output: 2
+console.log(pairsWithGivenXor2(A1, A1.length, B1)); // Output: 0
