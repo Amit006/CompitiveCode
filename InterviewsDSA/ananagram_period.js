@@ -12,6 +12,7 @@ function shortestAnagramPeriod(str) {
 
         // Check all other segments
         let isValid = true;
+        console.log(" P: ", p, " N: ", n);
         for (let i = p; i < n; i += p) {
             const currentFreq = {};
             for (let j = i; j < i + p; j++) {
@@ -36,6 +37,6 @@ function shortestAnagramPeriod(str) {
 
 // Examples:
 console.log(shortestAnagramPeriod("ababab"));    // Output: 2
-console.log(shortestAnagramPeriod("abcabcabc")); // Output: 3
-console.log(shortestAnagramPeriod("aaaa"));      // Output: 1
-console.log(shortestAnagramPeriod("aabbcc"));    // Output: 2
+// console.log(shortestAnagramPeriod("abcabcabc")); // Output: 3
+// console.log(shortestAnagramPeriod("aaaa"));      // Output: 1
+// console.log(shortestAnagramPeriod("aabbcc"));    // Output: 2
