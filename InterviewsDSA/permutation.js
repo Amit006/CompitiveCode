@@ -20,7 +20,7 @@ function Permute(arr) {
   newHashSet.add([...arr].reverse().join(""));
 
   // revserse apporch
-  for (let i = 0; i < n; i++) {
+  for (let i = 0; i < n-1; i++) {
     let newArr = JSON.parse(JSON.stringify(arr));
     swap(newArr, i, i + 1, arr[i]);
     // add the newArr to result if it is not already in the hashSet
