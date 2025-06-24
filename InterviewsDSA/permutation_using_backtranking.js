@@ -6,11 +6,14 @@ function Permute(arr) {
   const currentPermutation = [];
   const visited = new Array(n).fill(false);
 
+  // Sort the array to group duplicates together
+  arr.sort((a, b) => a - b);
+
   function backtrack() {
-    console.log("Current Permutation:", currentPermutation);
+    // console.log("Current Permutation:", currentPermutation);
     if (currentPermutation.length === n) {
       result.push([...currentPermutation]);
-      console.log("Found a result:", result);
+      // console.log("Found a result:", result);
       return;
     }
 
@@ -19,14 +22,17 @@ function Permute(arr) {
         continue;
       }
 
+        // Skip duplicates (only use the first occurrence when consecutive)
+      if (i > 0 && arr[i] === arr[i - 1] && !visited[i - 1]) continue;
+
       currentPermutation.push(arr[i]);
       visited[i] = true;
 
       backtrack();
 
       visited[i] = false;
-      console.log("Backtracking, removing: Index", i);
-      console.log("Current Permutation before pop:", currentPermutation);
+      // console.log("Backtracking, removing: Index", i);
+      // console.log("Current Permutation before pop:", currentPermutation);
       currentPermutation.pop();
     }
   }
