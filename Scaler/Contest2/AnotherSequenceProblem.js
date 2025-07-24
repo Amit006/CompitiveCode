@@ -37,6 +37,7 @@ Explanation 2:
 
 f(2) = 2
 
+
 */
 
 
@@ -44,9 +45,9 @@ const getSequence = (num) => {
   
   if (num === 0) return 1;
   if (num === 1) return 1;
-  if (num === 2) return 2  + getSequence(num - 1);
+  if (num === 2) return 2;
 
-  return num + getSequence(num - 1) + getSequence(num - 2);
+  return num + getSequence(num - 1) + getSequence(num - 2) + getSequence(num - 3);
 };
 let val = 5;
 console.log(getSequence(val)); // output should be: 28
