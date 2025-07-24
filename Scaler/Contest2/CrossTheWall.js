@@ -101,9 +101,9 @@ function minBricksCrossed(A, B, C) {
 }
 
 // Example usage:
-let A = 3,
-  B = 5,
-  C = [1, 2, 2, 5, 3, 2];
+// let A = 3,
+//   B = 5,
+//   C = [1, 2, 2, 5, 3, 2];
 // console.log(minBricksCrossed(A, B, C)); // Output: 1
 
 function solve(A, B, C) {
@@ -123,6 +123,7 @@ function solve(A, B, C) {
     }
   }
 
+  console.log(edgeCounts);
   let maxEdges = 0;
   for (const count of edgeCounts.values()) {
     if (count > maxEdges) {
@@ -133,24 +134,7 @@ function solve(A, B, C) {
   return A - maxEdges;
 }
 
-// console.log(solve(A, B, C)); // Example usage
-
-const CrossTheWall = (A, B, C) => {
-  let Wall = [];
-  let bricks = [];
-  let sum = 0;
-
-  for (let i = 0; i < C.length; i++) {
-    sum += C[i];
-    bricks.push(C[i]);
-    if (sum === B) {
-      Wall.push(bricks);
-      bricks = [];
-      sum = 0;
-    }
-  }
-
-  console.log(Wall);
-};
-
-console.log(CrossTheWall(2, 7, [3, 4, 2, 2, 3])); // [[1, 2, 3], [4]]
+A = 2
+B = 7
+C = [3, 4, 2, 2, 3]
+console.log(solve(A, B, C)); // Example usage
