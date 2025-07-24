@@ -44,10 +44,13 @@ Example Input
 Input 1:
 A = 2
 B = 7
-C = [3, 4, 2, 2,
+C = [3, 4, 2, 2, 3]
+
+Input 2:
 A = 3
 B = 5
-C = [1, 2, 2, 5,Output**
+C = [1, 2, 2, 5, 3, 2]
+
 
 Output 1:
 1
@@ -55,75 +58,82 @@ Output 1:
 Output 2:
 1
 
+Note: - 
+Explanation 1:
+
+We can create a line at length 2 of the wall. So, the line will cross only 1 brick at height 1.
+
+Explanation 2:
+
+We can create a line at length 3 of the wall. So, the line will cross only 1 brick at height 2.
+
 */
 function minBricksCrossed(A, B, C) {
-    // Split C into rows
-    let rows = [];
-    let idx = 0;
-    for (let i = 0; i < A; i++) {
-        let row = [];
-        let sum = 0;
-        while (sum < B && idx < C.length) {
-            row.push(C[idx]);
-            sum += C[idx];
-            idx++;
-        }
-        rows.push(row);
+  // Split C into rows
+  let rows = [];
+  let idx = 0;
+  for (let i = 0; i < A; i++) {
+    let row = [];
+    let sum = 0;
+    while (sum < B && idx < C.length) {
+      row.push(C[idx]);
+      sum += C[idx];
+      idx++;
     }
-    // Count edge positions
-    const edgeCount = {};
-    for (let row of rows) {
-        let pos = 0;
-        // Exclude the last brick (don't count the wall's right edge)
-        for (let i = 0; i < row.length - 1; i++) {
-            pos += row[i];
-            edgeCount[pos] = (edgeCount[pos] || 0) + 1;
-        }
+    rows.push(row);
+  }
+  // Count edge positions
+  const edgeCount = {};
+  for (let row of rows) {
+    let pos = 0;
+    // Exclude the last brick (don't count the wall's right edge)
+    for (let i = 0; i < row.length - 1; i++) {
+      pos += row[i];
+      edgeCount[pos] = (edgeCount[pos] || 0) + 1;
     }
-    console.log(edgeCount);
-    let maxEdges = 0;
-    for (let key in edgeCount) {
-        if (edgeCount[key] > maxEdges) maxEdges = edgeCount[key];
-    }
-    return A - maxEdges;
+  }
+  console.log(edgeCount);
+  let maxEdges = 0;
+  for (let key in edgeCount) {
+    if (edgeCount[key] > maxEdges) maxEdges = edgeCount[key];
+  }
+  return A - maxEdges;
 }
 
 // Example usage:
-let A = 3, B = 5, C = [1, 2, 2, 5, 3, 2];
+let A = 3,
+  B = 5,
+  C = [1, 2, 2, 5, 3, 2];
 // console.log(minBricksCrossed(A, B, C)); // Output: 1
 
-
-
 function solve(A, B, C) {
-    const edgeCounts = new Map();
-    let brickIndex = 0;
-    
-    for (let row = 0; row < A; row++) {
-        let rowSum = 0;
-        while (rowSum < B && brickIndex < C.length) {
-            const brickLength = C[brickIndex];
-            const newSum = rowSum + brickLength;
-            if (newSum < B) {
-                edgeCounts.set(newSum, (edgeCounts.get(newSum) || 0) + 1);
-            }
-            rowSum = newSum;
-            brickIndex++;
-        }
-    }
+  const edgeCounts = new Map();
+  let brickIndex = 0;
 
-    let maxEdges = 0;
-    for (const count of edgeCounts.values()) {
-        if (count > maxEdges) {
-            maxEdges = count;
-        }
+  for (let row = 0; row < A; row++) {
+    let rowSum = 0;
+    while (rowSum < B && brickIndex < C.length) {
+      const brickLength = C[brickIndex];
+      const newSum = rowSum + brickLength;
+      if (newSum < B) {
+        edgeCounts.set(newSum, (edgeCounts.get(newSum) || 0) + 1);
+      }
+      rowSum = newSum;
+      brickIndex++;
     }
-    
-    return A - maxEdges;
+  }
+
+  let maxEdges = 0;
+  for (const count of edgeCounts.values()) {
+    if (count > maxEdges) {
+      maxEdges = count;
+    }
+  }
+
+  return A - maxEdges;
 }
 
-
 // console.log(solve(A, B, C)); // Example usage
-
 
 const CrossTheWall = (A, B, C) => {
   let Wall = [];
@@ -140,8 +150,7 @@ const CrossTheWall = (A, B, C) => {
     }
   }
 
- console.log(Wall);
+  console.log(Wall);
 };
 
 console.log(CrossTheWall(2, 7, [3, 4, 2, 2, 3])); // [[1, 2, 3], [4]]
-   
