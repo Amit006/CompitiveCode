@@ -51,7 +51,9 @@ Explanation 2:
 // different approach
 const input = "abcdsfhjagj";
 const input2 = "ksdjgha";
+
 const input3 = "scsecugqsb";
+
 const input4 = "djjhibvetj";
 
 const LittlePonnyAndSubsequence2 = (A) => {
