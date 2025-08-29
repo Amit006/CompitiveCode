@@ -381,7 +381,340 @@ HAVING COUNT(DISTINCT s.challenge_id) > 1
 ORDER BY COUNT(DISTINCT s.challenge_id) DESC, s.hacker_id ASC;
 
 
+/*
+ * 
+ * Harry Potter and his friends are at Ollivander's with Ron, finally replacing Charlie's old broken wand.
+	Hermione decides the best way to choose is by determining the minimum number of 
+	gold galleons needed to buy each non-evil wand of high power and age. Write a query to 
+	print the id, age, coins_needed, and power of the wands that Ron's interested in, sorted in order of descending power. 
+	If more than one wand has same power, sort the result in order of descending age. 
+ * 
+ */
 
+create table Wands(id integer(20), code integer(20), coins_needed integer(20), power integer(20));
+create table Wands_Property(code integer(20), age integer(20), is_evil integer(20));
 								
-								
-								
+INSERT INTO Wands (id, code, coins_needed, power) VALUES
+(1, 4, 3688, 8),
+(2, 3, 9365, 3),
+(3, 3, 7187, 10),
+(4, 3, 734, 8),
+(5, 1, 6020, 2),
+(6, 2, 6773, 7),
+(7, 3, 9873, 9),
+(8, 3, 7721, 7),
+(9, 1, 1647, 10),
+(10, 4, 504, 5),
+(11, 2, 7587, 5),
+(12, 5, 9897, 10),
+(13, 3, 4651, 8),
+(14, 2, 5408, 1),
+(15, 2, 6018, 7),
+(16, 4, 7710, 5),
+(17, 2, 8798, 7),
+(18, 2, 3312, 3),
+(19, 4, 7651, 6),
+(20, 5, 5689, 3);
+
+INSERT INTO Wands_Property (code, age, is_evil) VALUES
+(1, 45, 0),
+(2, 40, 0),
+(3, 4, 1),
+(4, 20, 0),
+(5, 17, 0);
+
+SELECT w.id, wp.age, w.coins_needed, w.power
+FROM Wands w
+JOIN Wands_Property wp ON w.code = wp.code
+WHERE wp.is_evil = 0
+  AND w.id = (
+      SELECT w2.id
+      FROM Wands w2
+      JOIN Wands_Property wp2 
+          ON w2.code = wp2.code
+      WHERE wp2.age = wp.age
+        AND w2.power = w.power
+        AND wp2.is_evil = 0
+      ORDER BY w2.coins_needed ASC, w2.id DESC
+      LIMIT 1
+  )
+ORDER BY w.power DESC, wp.age DESC;
+
+
+
+
+
+/*
+
+If more than one student created the same number of challenges 
+and the count is less than the maximum number of challenges created, 
+then exclude those students from the result.
+
+*/
+
+
+
+WITH challenge_counts AS (
+    SELECT hacker_id, COUNT(challenge_id) AS challenge_count
+    FROM Challenges
+    GROUP BY hacker_id
+),
+max_count AS (
+    SELECT MAX(challenge_count) AS max_challenge_count
+    FROM challenge_counts
+),
+duplicate_counts AS (
+    SELECT challenge_count
+    FROM challenge_counts, max_count
+    WHERE challenge_count < max_challenge_count
+    GROUP BY challenge_count
+    HAVING COUNT(*) > 1
+)
+SELECT c.hacker_id
+FROM challenge_counts c
+WHERE
+    c.challenge_count = (SELECT max_challenge_count FROM max_count)
+    OR c.challenge_count NOT IN (SELECT challenge_count FROM duplicate_counts);
+
+
+
+/*
+ * You did such a great job helping Julia with her last coding contest challenge that she wants you to work on this one, too!
+
+The total score of a hacker is the sum of their maximum scores for all of the challenges. 
+Write a query to print the hacker_id, name, and total score of the hackers ordered by the descending score. 
+If more than one hacker achieved the same total score, then sort the result by ascending hacker_id. 
+Exclude all hackers with a total score of  from your result.
+ * 
+ * 
+ * 
+ */
+
+with  
+    max_score as (
+     select s.hacker_id, s.challenge_id, max(s.score) as m_score from Submissions as s 
+        group by s.hacker_id, s.challenge_id
+    ),
+    total_score  as (
+    select h.hacker_id,h.name, sum(m.m_score) as total_score from Hackers as h
+    join 
+    max_score as m on m.hacker_id = h.hacker_id
+    group by  h.hacker_id,h.name 
+    )
+    
+    select t.hacker_id, t.name, t.total_score from total_score as t  
+     where t.total_score !=0
+     order by t.total_score desc, t.hacker_id;
+    
+-- ---------------- with out CTE MYSQL version <=  5  
+    
+SELECT t.hacker_id, t.name, t.total_score
+FROM (
+    SELECT h.hacker_id, h.name, SUM(m.m_score) AS total_score
+    FROM Hackers h
+    JOIN (
+        SELECT hacker_id, challenge_id, MAX(score) AS m_score
+        FROM Submissions
+        GROUP BY hacker_id, challenge_id
+    ) m ON m.hacker_id = h.hacker_id
+    GROUP BY h.hacker_id, h.name
+) t
+WHERE t.total_score != 0
+ORDER BY t.total_score DESC, t.hacker_id;
+
+
+/*
+
+Julia conducted a  days of learning SQL contest. 
+The start date of the contest was March 01, 2016 and the end date was March 15, 2016.
+
+Write a query to print total number of unique hackers who made at least  
+submission each day (starting on the first day of the contest), and 
+find the hacker_id and name of the hacker who made maximum number of submissions each day. 
+If more than one such hacker has a maximum number of submissions, print the lowest hacker_id. 
+The query should print this information for each day of the contest, sorted by the date.
+
+*/
+
+select  * from submissions;
+
+ with 
+  filtered_submission as (
+    select hacker_id, submission_id, score, submission_date from Submissions 
+      where submission_date between "2016-03-01" and "2016-03-15"
+  )
+  ,
+  total_submission as (
+  select count(submission_id) as sub_count, submission_date, hacker_id from filtered_submission 
+     group by submission_date, hacker_id
+  ),
+  One_submission as (
+   select submission_date, sub_count, hacker_id   from total_submission 
+   where sub_count = 1
+  )
+--   select * from One_submission;
+  ,
+  Maximum_submission  as (
+     select min(FS.hacker_id) as Hacker_id , count(FS.submission_id) as Submission_count, FS.submission_date from filtered_submission as FS
+      group by submission_date
+      having count(FS.submission_id) = (
+          select max(sub_count) from (
+          select sub_count from  total_submission where submission_date = FS.submission_date
+      ) as sub) 
+  ) 
+  
+  select m.submission_date, coalesce(m.Submission_count, s.sub_count), h.hacker_id , h.name  from Hackers as h
+  join 
+  Maximum_submission as m on h.hacker_id = m.Hacker_id
+  join
+  One_submission as s on m.submission_date = s.submission_date
+  order by m.submission_date
+
+  select * from filtered_submission;
+
+alter table submissions add column submission_date DATE;
+Truncate table Submissions;
+use  HakerRank;
+
+
+/*
+ * 
+ * You are given a table, Projects, containing three columns: Task_ID, Start_Date and End_Date. 
+ * It is guaranteed that the difference between the End_Date and the Start_Date is equal to 1 day for each row in the table.
+   If the End_Date of the tasks are consecutive, then they are part of the same project. 
+   Samantha is interested in finding the total number of different projects completed.
+	
+	Write a query to output the start and end dates of projects listed by the number of days it took to 
+	complete the project in ascending order. If there is more than one project 
+	that have the same number of completion days, then order by the start date of the project.
+ * 
+ * 
+ * 
+ */
+ create table Projects (Task_ID Integer(20), Start_Date DATE, End_Date DATE);
+ 
+ insert into Projects values (1, "2015-10-01", "2015-10-02");
+ insert into Projects values (2, "2015-10-02", "2015-10-03");
+ insert into Projects values (3, "2015-10-03", "2015-10-04");
+ insert into Projects values (4, "2015-10-13", "2015-10-14");
+ insert into Projects values (5, "2015-10-14", "2015-10-15");
+ insert into Projects values (6, "2015-10-28", "2015-10-29");
+ insert into Projects values (7, "2015-10-30", "2015-10-31");
+ 
+ 
+ select * from Projects;
+ 
+WITH 
+ cte AS (
+  SELECT *,
+    ROW_NUMBER() OVER (ORDER BY Start_Date) AS rn
+  FROM Projects
+),
+groups_date AS (
+  SELECT
+    *,
+    DATE_SUB(Start_Date, INTERVAL rn DAY) AS group_id
+  FROM cte
+),
+project_list as (
+SELECT
+  MIN(Start_Date) AS project_start,
+  MAX(End_Date) AS project_end,
+  DATEDIFF(max(Start_date), min(End_Date))+1 completion_days
+FROM groups_date
+GROUP BY group_id
+ORDER BY completion_days)
+
+select project_start, project_end from project_list;
+-----------------------------  Another Solution
+
+select project_start, project_end from (
+SELECT 
+  MIN(Start_Date) AS project_start,
+  MAX(End_Date) AS project_end,
+  DATEDIFF(MAX(End_Date), MIN(Start_Date)) + 1 AS completion_days
+FROM (
+  SELECT *,
+    DATE_SUB(Start_Date, INTERVAL rn DAY) AS group_id
+  FROM (SELECT *,
+    ROW_NUMBER() OVER (ORDER BY Start_Date) AS rn
+  FROM Projects) as cte
+) AS groups_date
+GROUP BY group_id
+) as group_wtih_order
+ order by completion_days;
+
+
+/*
+ * migration of database
+ * 
+ */
+
+show databases;
+use HackerRank;
+   
+RENAME TABLE hakerrank TO hackerrank;
+
+CREATE DATABASE hackerrank LIKE hakerrank;
+
+mysqldump -u root -p hakerrank | mysql -u root -p hackerrank
+
+
+
+/*
+ * You are given three tables: Students, Friends and Packages. 
+ * Students contains two columns: ID and Name. Friends contains two columns: ID and Friend_ID (ID of the ONLY best friend). 
+ * Packages contains two columns: ID and Salary (offered salary in $ thousands per month).
+ * 
+ * 
+ * Write a query to output the names of those students whose best friends got offered a higher salary than them. 
+ * Names must be ordered by the salary amount offered to the best friends. 
+ * It is guaranteed that no two students got same salary offer.
+ */
+
+
+create table Students (Id integer(20), Name varchar(20));
+create table Friends  (Id integer(20), Friend_Id integer(20));
+create table Packages (Id integer(20), Salary varchar(20));
+
+
+insert into Students values  (1, "Ashley"), (2, "Samantha"), (3, "Julia"), (4, "Scarlet");
+
+insert into Friends values  (1, 2), (2, 3), (3, 4), (4, 1);
+
+insert into Packages values (1,15.20),(2,10.06),(3,11.55),(4,12.12);
+
+
+
+with 
+
+	all_strudent as (
+		select S.Id, S.Name, F.Friend_Id, P.Salary from Students as S 
+		join  
+		Friends as F on S.Id = F.Id
+		join 
+		Packages as P on P.Id = S.Id
+		where P.Salary < ( select Salary from Packages where Id= F.Friend_Id )
+		order by ( select Salary from Packages where Id= F.Friend_Id )
+	)
+	select Name from all_strudent;
+	
+-- 	select * from all_best_friends_salary;
+	
+	
+---- alternative 
+SELECT S.Name
+FROM Students S
+JOIN Friends F ON S.Id = F.Id
+JOIN Packages P ON P.Id = S.Id
+JOIN Packages P_Friend ON P_Friend.Id = F.Friend_Id
+WHERE P.Salary < P_Friend.Salary
+ORDER BY P_Friend.Salary;
+	
+
+
+
+
+
+
+
