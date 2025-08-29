@@ -712,9 +712,140 @@ WHERE P.Salary < P_Friend.Salary
 ORDER BY P_Friend.Salary;
 	
 
+/*
+ * Samantha interviews many candidates from different colleges using coding challenges and contests. 
+ * 
+ * Write a query to print the contest_id, hacker_id, name, 
+ * and the sums of total_submissions, total_accepted_submissions, total_views, and total_unique_views 
+ * for each contest sorted by contest_id. Exclude the contest from the result if all four sums are .
+   Note: A specific contest can be used to screen candidates at more than one college, but each college only holds  screening contest.
+ * 
+ * 
+ */
+
+create table Contests (contest_id integer(20), hacker_id Integer(20), name varchar(20));
+create table Colleges (college_id Integer(20), contest_id integer(20));
+alter  table Challenges add (college_id Integer(20));
+create table View_Status(challenge_id integer(20), total_views integer(20), total_unique_views Integer(20));
+create table Submission_Stats (challenge_id Integer(20), total_submissions integer(20), total_accepted_submissions integer(20));
+
+
+insert into Contests values (66406, 17973, "Rose"), (66556, 79153, "Angela"), (94828, 80275, "Frank"); 
+insert into Colleges values (11219, 66406), (32473, 66556), (56685, 94828);
+select * from Challenges;
+insert into Challenges values (18765,11219), (47127,11219), (60292,32473), (72974,56685);
+update Challenges set college_id = 56685 where challenge_id = 72974;
+
+
+INSERT INTO View_Status  VALUES (47127, 26, 19);
+INSERT INTO View_Status  VALUES (47127, 15, 14);
+INSERT INTO View_Status  VALUES (18765, 43, 10);
+INSERT INTO View_Status  VALUES (18765, 72, 13);
+INSERT INTO View_Status  VALUES (75516, 35, 17);
+INSERT INTO View_Status  VALUES (60292, 11, 10);
+INSERT INTO View_Status  VALUES (72974, 41, 15);
+INSERT INTO View_Status  VALUES (75516, 75, 11);
+
+
+select * from View_Status;
+
+INSERT INTO Submission_Stats VALUES
+(75516, 34, 12),
+(47127, 27, 10),
+(47127, 56, 18),
+(75516, 74, 12),
+(75516, 83, 8),
+(72974, 68, 24),
+(72974, 82, 14),
+(47127, 28, 11);
 
 
 
+with 
+   All_record as (
+   		 SELECT 
+        C.contest_id AS contest_id,
+        C.hacker_id as hacker_id,
+        C.name as name,
+--         Cl.college_id,
+--         Ch.challenge_id,
+        SUM(S.total_submissions) as total_submissions,
+        sum(S.total_accepted_submissions) as total_accepted_submissions,
+        sum(V.total_views) as total_views,
+        SUM(V.total_unique_views) as total_unique_views
+        
+    FROM Contests C
+    JOIN Colleges Cl ON C.contest_id = Cl.contest_id
+    JOIN Challenges Ch ON Cl.college_id = Ch.college_id
+    JOIN View_Status V ON Ch.challenge_id = V.challenge_id
+    JOIN Submission_Stats S ON Ch.challenge_id = S.challenge_id
+   
+    group by C.contest_id, c.hacker_id, name
+    having (SUM(S.total_submissions) + SUM(S.total_accepted_submissions) 
+    + SUM(V.total_views) 
+    + SUM(V.total_unique_views)) > 0
+    order by C.contest_id
+   )
+   select * from All_record ;
+--     where sum(total_submissions,total_accepted_submissions,total_views,total_unique_views);
 
+--- another faster approch 
+WITH
+  Agg_View_Status AS (
+    SELECT challenge_id, SUM(total_views) AS total_views, SUM(total_unique_views) AS total_unique_views
+    FROM View_Status
+    GROUP BY challenge_id
+  ),
+  Agg_Submission_Stats AS (
+    SELECT challenge_id, SUM(total_submissions) AS total_submissions, SUM(total_accepted_submissions) AS total_accepted_submissions
+    FROM Submission_Stats
+    GROUP BY challenge_id
+  ),
+  All_record AS (
+    SELECT 
+      C.contest_id,
+      C.hacker_id,
+      C.name,
+      SUM(S.total_submissions) AS total_submissions,
+      SUM(S.total_accepted_submissions) AS total_accepted_submissions,
+      SUM(V.total_views) AS total_views,
+      SUM(V.total_unique_views) AS total_unique_views
+    FROM Contests C
+    JOIN Colleges Cl ON C.contest_id = Cl.contest_id
+    JOIN Challenges Ch ON Cl.college_id = Ch.college_id
+    JOIN Agg_View_Status V ON Ch.challenge_id = V.challenge_id
+    JOIN Agg_Submission_Stats S ON Ch.challenge_id = S.challenge_id
+    GROUP BY C.contest_id, C.hacker_id, C.name
+    HAVING (total_submissions + total_accepted_submissions + total_views + total_unique_views) > 0
+    ORDER BY C.contest_id
+  )
+SELECT * FROM All_record;
+
+----  correct approch 
+
+SELECT 
+  C.contest_id,
+  C.hacker_id,
+  C.name,
+  COALESCE(SUM(S.total_submissions), 0) AS total_submissions,
+  COALESCE(SUM(S.total_accepted_submissions), 0) AS total_accepted_submissions,
+  COALESCE(SUM(V.total_views), 0) AS total_views,
+  COALESCE(SUM(V.total_unique_views), 0) AS total_unique_views
+FROM Contests C
+JOIN Colleges Cl ON C.contest_id = Cl.contest_id
+JOIN Challenges Ch ON Cl.college_id = Ch.college_id
+LEFT JOIN (
+    SELECT challenge_id, SUM(total_views) AS total_views, SUM(total_unique_views) AS total_unique_views
+    FROM View_Stats
+    GROUP BY challenge_id
+) V ON Ch.challenge_id = V.challenge_id
+LEFT JOIN (
+    SELECT challenge_id, SUM(total_submissions) AS total_submissions, SUM(total_accepted_submissions) AS total_accepted_submissions
+    FROM Submission_Stats
+    GROUP BY challenge_id
+) S ON Ch.challenge_id = S.challenge_id
+GROUP BY C.contest_id, C.hacker_id, C.name
+HAVING (total_submissions + total_accepted_submissions + total_views + total_unique_views) > 0
+ORDER BY C.contest_id;
 
 
