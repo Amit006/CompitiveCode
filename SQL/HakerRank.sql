@@ -849,3 +849,89 @@ HAVING (total_submissions + total_accepted_submissions + total_views + total_uni
 ORDER BY C.contest_id;
 
 
+
+/*
+ * 
+ * Julia conducted a  days of learning SQL contest. 
+ * The start date of the contest was March 01, 2016 and the end date was March 15, 2016.
+
+Write a query to print total number of unique hackers who made at least  
+submission each day (starting on the first day of the contest), and 
+find the hacker_id and name of the hacker who made maximum number of submissions each day. 
+If more than one such hacker has a maximum number of submissions, 
+print the lowest hacker_id. The query should print this information for each day of the contest, sorted by the date.
+ * 
+ * 
+ */
+
+-- select * from Submissions where hacker_id = 86870;
+
+with
+  filtered_submission as (
+    select hacker_id, submission_id, score, submission_date from Submissions 
+      where submission_date between "2016-03-01" and "2016-03-15"
+  )
+--   select * from filtered_submission where hacker_id = 86870;
+  ,
+  daily_total_submission as (
+  select count(submission_id) as submission_count, submission_date, hacker_id from filtered_submission 
+     group by submission_date, hacker_id
+     having  count(submission_id) >= 1
+  )
+--   select * from total_submission order by sub_count desc;
+  ,
+  daily_maximum_submission_count as (
+   select submission_date, Max(submission_count) as max_submission_count   from daily_total_submission 
+   group by submission_date
+  )
+--   select * from One_submission;
+  ,
+ total_hacker_list as ( 
+   select 
+   		 dsc.submission_date,
+	     dsc.hacker_id,
+-- 	     h.name,
+	     dsc.submission_count
+	FROM daily_total_submission dsc
+	JOIN daily_maximum_submission_count dms
+	 	ON dsc.submission_date = dms.submission_date
+	 	AND dsc.submission_count = dms.max_submission_count
+	 
+-- 	JOIN Hackers h ON dsc.hacker_id = h.hacker_id
+-- 	WHERE dsc.hacker_id = (
+-- 	    SELECT MIN(hacker_id)
+-- 	    FROM daily_total_submission dsc2
+-- 	    WHERE dsc2.submission_date = dsc.submission_date
+-- 	      AND dsc2.submission_count = dsc.submission_count
+-- 	)
+	ORDER BY dsc.submission_date
+) 
+select *, H.name from total_hacker_list as HA
+JOIN Hackers h ON HA.hacker_id = h.hacker_id;
+-- select submission_date, min(hacker_id), name, submission_count  from total_hacker_list group by submission_date,name,submission_count; 
+  
+ select * from Hackers where hacker_id = 86870;
+ 
+ WITH
+  cte1 AS   (   SELECT s.submission_date, s.submission_id, s.hacker_id, h.name
+                    , DAY(s.submission_date) AS day_num
+                    , DENSE_RANK() OVER(PARTITION BY s.hacker_id ORDER BY s.submission_date) AS rnk
+                FROM submissions s
+                JOIN hackers h ON h.hacker_id = s.hacker_id
+                WHERE s.submission_date BETWEEN '2016-03-01' AND '2016-03-15' )
+, cte2 AS   (   SELECT submission_date, COUNT(DISTINCT hacker_id) AS unique_h_count
+                FROM cte1
+                WHERE day_num = rnk
+                GROUP BY submission_date )
+
+, cte3 AS   (   SELECT submission_date, hacker_id, COUNT(submission_id) AS s_count
+                FROM cte1
+                GROUP BY submission_date, hacker_id )
+, cte4 AS   (   SELECT *, ROW_NUMBER() OVER(PARTITION BY submission_date ORDER BY s_count DESC, hacker_id) AS rn
+                FROM cte3 )
+
+SELECT cte4.submission_date, cte2.unique_h_count, cte4.hacker_id, h.name
+FROM cte4
+JOIN hackers h ON h.hacker_id = cte4.hacker_id
+JOIN cte2 ON cte2.submission_date = cte4.submission_date
+WHERE rn = 1
