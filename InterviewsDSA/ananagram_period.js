@@ -12,7 +12,6 @@ function shortestAnagramPeriod(str) {
 
         // Check all other segments
         let isValid = true;
-        console.log(" P: ", p, " N: ", n);
         for (let i = p; i < n; i += p) {
             const currentFreq = {};
             for (let j = i; j < i + p; j++) {

@@ -19,7 +19,7 @@ function Permute(arr) {
   newHashSet.add(arr.join(""));
   newHashSet.add([...arr].reverse().join(""));
 
-  // revserse apporch
+  // reverse approach
   for (let i = 0; i < n-1; i++) {
     let newArr = JSON.parse(JSON.stringify(arr));
     swap(newArr, i, i + 1, arr[i]);
@@ -27,8 +27,8 @@ function Permute(arr) {
     addInHashSet(newArr, newHashSet);
 
     // reverse the newArr and add it to the hashSet
-    let revsersedArr = newArr.reverse();
-    addInHashSet(revsersedArr, newHashSet);
+    let reversedArr = newArr.reverse();
+    addInHashSet(reversedArr, newHashSet);
   }
 
   return [...newHashSet].map((item) => item.split("").map(Number));
