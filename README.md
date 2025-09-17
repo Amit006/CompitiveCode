@@ -11,7 +11,9 @@ A curated collection of solutions to **LeetCode**, **Codeforces**, **HackerRank*
 
 [![LeetCode Stats](https://leetcode-stats-six.vercel.app/api?username=Amit006&theme=light)](https://leetcode.com/Amit006/)
 
-![image](https://github.com/user-attachments/assets/f524a96a-a985-46ad-948c-a1da1923c0b9)
+<img width="1847" height="2372" alt="image" src="https://github.com/user-attachments/assets/e86921d8-1933-4e03-aada-5bc6c8100c0a" />
+
+
 
 
 ---
