@@ -8,10 +8,13 @@ var productExceptSelf = function (nums) {
     result[i] = prefix;
   }
 
+  console.log(result);
   let suffix = 1;
   for (let i = n - 2; i >= 0; i--) {
     suffix *= nums[i + 1];
+    console.log("suffix", suffix);
     result[i] *= suffix;
+    console.log(" after - ",result);
   }
 
   return result;
