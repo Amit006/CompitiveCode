@@ -33,11 +33,9 @@ var insert = function (intervals, newInterval) {
         merge = true;
       }
 
-      // console.log(' ddd');
       continue;
     }
     result.push(intervals[i]);
-    // console.log(' result: ', result);
   }
 
   if (!merge) result.push(newInterval);
@@ -50,11 +48,11 @@ const intervals = [
     [6, 9],
   ],
   newInterval = [2, 5];
-// console.log(insert(intervals, newInterval));
+console.log(insert(intervals, newInterval));
 
 const interval2 = [[1, 5]],
   newInterval2 = [2, 3];
-// console.log(insert(interval2, newInterval2));
+console.log(insert(interval2, newInterval2));
 const interval3 = [
     [1, 1],
     [2, 8],
