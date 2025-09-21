@@ -9,9 +9,12 @@ A curated collection of solutions to **LeetCode**, **Codeforces**, **HackerRank*
 
 # LeetCode Dashboard 🚀
 
-[![LeetCode Stats](https://leetcode-stats-six.vercel.app/api?username=Amit006&theme=light)](https://leetcode.com/Amit006/)
+<img width="1857" height="2273" alt="image" src="https://github.com/user-attachments/assets/73fbc82b-2e9e-400c-b9aa-9a977ef2ea71" />
 
-![image](https://github.com/user-attachments/assets/f524a96a-a985-46ad-948c-a1da1923c0b9)
+<img width="1333" height="978" alt="image" src="https://github.com/user-attachments/assets/1bac4600-7163-4811-acd9-beb06fc8c30e" />
+
+
+
 
 
 ---
