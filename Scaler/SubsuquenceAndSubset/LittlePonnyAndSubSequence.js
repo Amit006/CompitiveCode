@@ -47,7 +47,6 @@ Explanation 2:
 
 */
 
-
 // different approach
 const input = "abcdsfhjagj";
 const input2 = "ksdjgha";
@@ -110,8 +109,30 @@ function suffixMinSubSequence(A) {
   return minPair;
 }
 
-
 console.log(suffixMinSubSequence(input)); // Output: "aa"
 console.log(suffixMinSubSequence(input2)); // Output: "da"
 console.log(suffixMinSubSequence(input3)); // Output: "da"
 console.log(suffixMinSubSequence(input4)); // Output: "da"
+
+// Optimized solution
+const LittlePonnyAndSubsequenceOptimized = (A) => {
+  let n = A.length;
+  let suffixMin = new Array(n);
+
+  // Step 1: precompute suffix minima
+  suffixMin[n - 1] = A[n - 1];
+  for (let i = n - 2; i >= 0; i--) {
+    suffixMin[i] = A[i] < suffixMin[i + 1] ? A[i] : suffixMin[i + 1];
+  }
+
+  let best = "zz"; // placeholder larger than any 2-char string
+
+  for (let i = 0; i < n - 1; i++) {
+    let candidate = A[i] + suffixMin[i + 1];
+    if (candidate < best) best = candidate;
+  }
+
+  return best;
+};
+
+console.log(LittlePonnyAndSubsequenceOptimized(input)); // Output: "aa"
