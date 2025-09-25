@@ -136,3 +136,33 @@ const LittlePonnyAndSubsequenceOptimized = (A) => {
 };
 
 console.log(LittlePonnyAndSubsequenceOptimized(input)); // Output: "aa"
+
+// Bitwise approach to find all subsets
+const LittlePonnyAndSubsequenceBitwiseBitWiseOperator = (A) => {
+  const n = A.length;
+  if (n < 2) {
+    return "";
+  }
+
+  let firstChar = "z";
+  let bestSecondChar = "z";
+  let currentMin = "{"; // A character beyond 'z' to ensure it's larger than any lowercase letter
+
+  for (let i = n - 1; i >= 0; i--) {
+    if (i < n - 1) {
+      if (A[i] < firstChar) {
+        firstChar = A[i];
+        bestSecondChar = currentMin;
+      } else if (A[i] === firstChar) {
+        if (currentMin < bestSecondChar) {
+          bestSecondChar = currentMin;
+        }
+      }
+    }
+    if (A[i] < currentMin) {
+      currentMin = A[i];
+    }
+  }
+
+  return firstChar + bestSecondChar;
+};

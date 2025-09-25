@@ -87,7 +87,7 @@ const subsets = (A) => {
     for (let i = start; i < A.length; i++) {
       path.push(A[i]);
       backtrack(i + 1, path);
-      path.pop();
+      path. pop();
     }
   };
   backtrack(0, []);
@@ -133,3 +133,5 @@ const subsetsBitManipulation = (A) => {
 
 const input2 = [1, 2, 3];
 console.log(subsetsBitManipulation(input2));
+
+

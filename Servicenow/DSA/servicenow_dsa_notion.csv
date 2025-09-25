@@ -1,0 +1,28 @@
+Task,Day,Link,Status
+Two Sum,Day 1 – Arrays & Strings,https://leetcode.com/problems/two-sum/,To Do
+3Sum,Day 1 – Arrays & Strings,https://leetcode.com/problems/3sum/,To Do
+Maximum Subarray (Kadane),Day 1 – Arrays & Strings,https://leetcode.com/problems/maximum-subarray/,To Do
+Longest Substring Without Repeating Characters,Day 1 – Arrays & Strings,https://leetcode.com/problems/longest-substring-without-repeating-characters/,To Do
+Merge Intervals,Day 2 – Arrays Advanced,https://leetcode.com/problems/merge-intervals/,To Do
+Insert Interval,Day 2 – Arrays Advanced,https://leetcode.com/problems/insert-interval/,To Do
+Trapping Rain Water,Day 2 – Arrays Advanced,https://leetcode.com/problems/trapping-rain-water/,To Do
+Group Anagrams,Day 3 – Hashing + Sorting,https://leetcode.com/problems/group-anagrams/,To Do
+Longest Consecutive Sequence,Day 3 – Hashing + Sorting,https://leetcode.com/problems/longest-consecutive-sequence/,To Do
+Subarray Sum Equals K,Day 3 – Hashing + Sorting,https://leetcode.com/problems/subarray-sum-equals-k/,To Do
+Kth Largest Element in an Array,Day 3 – Hashing + Sorting,https://leetcode.com/problems/kth-largest-element-in-an-array/,To Do
+Reverse Linked List,Day 4 – Linked List,https://leetcode.com/problems/reverse-linked-list/,To Do
+Merge Two Sorted Lists,Day 4 – Linked List,https://leetcode.com/problems/merge-two-sorted-lists/,To Do
+Linked List Cycle Detection,Day 4 – Linked List,https://leetcode.com/problems/linked-list-cycle/,To Do
+LRU Cache,Day 4 – Linked List,https://leetcode.com/problems/lru-cache/,To Do
+Valid Parentheses,Day 5 – Stacks & Queues,https://leetcode.com/problems/valid-parentheses/,To Do
+Min Stack,Day 5 – Stacks & Queues,https://leetcode.com/problems/min-stack/,To Do
+Sliding Window Maximum,Day 5 – Stacks & Queues,https://leetcode.com/problems/sliding-window-maximum/,To Do
+Largest Rectangle in Histogram,Day 5 – Stacks & Queues,https://leetcode.com/problems/largest-rectangle-in-histogram/,To Do
+Binary Tree Level Order Traversal,Day 6 – Trees,https://leetcode.com/problems/binary-tree-level-order-traversal/,To Do
+Lowest Common Ancestor of a Binary Tree,Day 6 – Trees,https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/,To Do
+Diameter of Binary Tree,Day 6 – Trees,https://leetcode.com/problems/diameter-of-binary-tree/,To Do
+Serialize and Deserialize Binary Tree,Day 6 – Trees,https://leetcode.com/problems/serialize-and-deserialize-binary-tree/,To Do
+Number of Islands,Day 7 – Graphs + DP,https://leetcode.com/problems/number-of-islands/,To Do
+Course Schedule (Topological Sort),Day 7 – Graphs + DP,https://leetcode.com/problems/course-schedule/,To Do
+Clone Graph,Day 7 – Graphs + DP,https://leetcode.com/problems/clone-graph/,To Do
+Coin Change,Day 7 – Graphs + DP,https://leetcode.com/problems/coin-change/,To Do
