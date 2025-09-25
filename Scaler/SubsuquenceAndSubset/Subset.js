@@ -106,7 +106,7 @@ const subsetsBitManipulation = (A) => {
   A.sort((a, b) => a - b);
   let result = [];
   const n = A.length;
-  const totalSubsets = 1 << n; // 2^n subsets
+  const totalSubsets = 1 << n; // 2^n subsets 
   for (let i = 0; i < totalSubsets; i++) {
     let subset = [];
     for (let j = 0; j < n; j++) {
@@ -131,7 +131,7 @@ const subsetsBitManipulation = (A) => {
   return result;
 };
 
-const input2 = [1, 2, 3];
+const input2 = [23, 2222, 12312313];
 console.log(subsetsBitManipulation(input2));
 
 
