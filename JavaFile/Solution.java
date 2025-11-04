@@ -1,6 +1,18 @@
 import java.util.HashMap;
 
 public class Solution {
+
+    
+    public static void main(String[] args) {
+        int[] A = { 2, 7, 11, 15, 3, 6, 8, 1 };
+        int B = 9;
+        int[] res = twoSum(A, B);
+        for (int i : res) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+    }
+
     // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY public int[]
     public static int[] twoSum(final int[] A, int B) {
         HashMap<Integer, Integer> idx = new HashMap<>();
@@ -19,13 +31,5 @@ public class Solution {
         return new int[] {};
     }
 
-
-    public static void Main(){
-        int[] A  =  {2, 7, 11, 15, 3, 6, 8, 1};
-    int B = 9;
-        int[] res = twoSum(A, B);
-        for (int i : res) {
-            System.out.println(i + " ");
-        }
-    }
 }
+

@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class Solution {
+public class TempCodeRunnerFile {
     // DO NOT MODIFY THE ARGUMENTS WITH "final" PREFIX. IT IS READ ONLY public int[]
     public static int[] twoSum(final int[] A, int B) {
         HashMap<Integer, Integer> idx = new HashMap<>();
