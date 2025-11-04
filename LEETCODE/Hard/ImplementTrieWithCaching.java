@@ -1,34 +1,31 @@
 
-class Trie {
+import java.util.HashMap;
 
-    // Implemented using bitmasking for child existence checks 
+
+class ImplementTrieWithCaching {
+
+    // Implemented using HashMap for child existence checks 
     private class TrieNode {
-        TrieNode[] children;
+        HashMap<Character, TrieNode> children;
         Boolean isWordEnd;
-        int childMask; // 26 bits for 'a' to 'z'
 
         public TrieNode() {
-            children = new TrieNode[26];
+            children = new  HashMap<>();
             isWordEnd = false;
-            childMask = 0;
         }
     }
 
     private TrieNode root;
 
-    public Trie() {
+    public ImplementTrieWithCaching() {
         root = new TrieNode();
     }
 
     public void insert(String word) {
         TrieNode curr = root;
         for (char c : word.toCharArray()) {
-            Integer index = c - 'a';
-            if (curr.children[index] == null) {
-                curr.children[index] = new TrieNode();
-                curr.childMask |= (1 << index); // Set the bit for this child
-            }
-            curr = curr.children[index];
+            curr.children.putIfAbsent(c, new TrieNode());
+            curr = curr.children.get(c);
         }
 
         curr.isWordEnd = true;
@@ -37,11 +34,8 @@ class Trie {
     public boolean search(String word) {
         TrieNode curr = root;
         for (char c : word.toCharArray()) {
-            Integer index = c - 'a';
-            if ((curr.childMask & (1 << index)) == 0) {
-                return false;
-            }
-            curr = curr.children[index];
+            curr.children.putIfAbsent(c, new TrieNode());
+            curr = curr.children.get(c);
         }
         return curr.isWordEnd;
     }
@@ -49,18 +43,15 @@ class Trie {
     public boolean startsWith(String prefix) {
         TrieNode curr = root;
         for (char c : prefix.toCharArray()) {
-            Integer index = c - 'a';
-            if ((curr.childMask & (1 << index)) == 0) {
-                return false;
-            }
-            curr = curr.children[index];
+            curr.children.putIfAbsent(c, new TrieNode());
+            curr = curr.children.get(c);
         }
         return true;
     }
 
 
     public static void main(String[] args) {
-        Trie trie = new Trie();
+        ImplementTrieWithCaching trie = new ImplementTrieWithCaching();
         trie.insert("apple");
         System.out.println(trie.search("apple"));   // returns true
         System.out.println(trie.search("app"));     // returns false
