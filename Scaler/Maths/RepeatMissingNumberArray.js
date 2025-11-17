@@ -43,26 +43,37 @@ const n = input.length;
 
 // console.log(input1.sort((a,b)=>a-b).join(',')); // 2, 3
 
+// O(1) space, O(n) time solution using math
+// Returns [duplicate, missing]
 const findMissingNumberWithOneDuplicate = (arr) => {
-  let duplicate = new Map();
-  const result = [0, 0];
-  const expectedSum = (arr.length * (arr.length + 1)) / 2;
-  let actualSum = 0
+  const n = arr.length;
+  // Use BigInt internally to be safe for large n, then convert to Number at the end
+  const N = BigInt(n);
+  const expectedSum = (N * (N + 1n)) / 2n; // sum 1..n
+  const expectedSqSum = (N * (N + 1n) * (2n * N + 1n)) / 6n; // sum of squares 1..n
 
-  for (let i = 0; i < arr.length; i++) {
-    if (duplicate.has(arr[i])) {
-      duplicate.set(arr[i], duplicate.get(arr[i]) + 1);
-    } else {
-      duplicate.set(arr[i], 1);
-    }
-
-    if (duplicate.get(arr[i]) > 1) {
-      result[0] = arr[i];
-    }
-        actualSum+= arr[i];
+  let actualSum = 0n;
+  let actualSqSum = 0n;
+  for (let i = 0; i < n; i++) {
+    const v = BigInt(arr[i]);
+    actualSum += v;
+    actualSqSum += v * v;
   }
-  result[1] = expectedSum - (actualSum - result[0]); // why result[0] is subtracted from actualSum?
-  return result;
+
+  // Let D = duplicate, M = missing
+  // diff = (sum(arr) - sum(1..n)) = D - M
+  const diff = actualSum - expectedSum; // D - M
+  // diffSq = (sumsq(arr) - sumsq(1..n)) = D^2 - M^2 = (D - M)(D + M) = diff * (D + M)
+  const diffSq = actualSqSum - expectedSqSum;
+
+  // sumDM = D + M
+  const sumDM = diffSq / diff;
+
+  // Solve: D = (diff + sumDM) / 2, M = D - diff
+  const duplicate = (diff + sumDM) / 2n;
+  const missing = duplicate - diff;
+
+  return [Number(duplicate), Number(missing)];
 };
 
 // console.log(findMissingNumberWithOneDuplicate(input)); // 2, 3
