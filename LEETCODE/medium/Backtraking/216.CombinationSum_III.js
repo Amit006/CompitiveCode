@@ -120,6 +120,36 @@ function combinationSum3v4(k, n) {
 
 
 
-console.log(combinationSum3v4(9, 45));
+// console.log(combinationSum3v4(9, 45));
+
+
+
+const k=3, target=9;
+
+const combinationSum3v5 = (k, target) => {
+  const result = [];
+
+  const backtrack = (start, path, sum) => {
+    if (path.length === k && sum === target) {
+      result.push([...path]);
+      return;
+    }
+
+    for (let i = start; i <= 9; i++) {
+      if (sum + i > target) continue;
+      path.push(i);
+      backtrack(i + 1, path, sum + i);
+      path.pop();
+    }
+
+  };
+  backtrack(1, [], 0);
+  return result;
+}
+
+console.log(combinationSum3v5(k, target)); // [[1,2,4]]
+
 
 module.exports = { combinationSum3, combinationSum3V1, combinationSum3V2 };
+
+
