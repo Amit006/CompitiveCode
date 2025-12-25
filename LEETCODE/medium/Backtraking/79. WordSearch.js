@@ -166,8 +166,10 @@ var exist = (board, word) => {
     const directions = [[0, 1], [1, 0], [0, -1], [-1, 0]];
     
     function dfs(i, j, index, visitedMask) {
+        
         // Check if visited using bitmask
         const bit = 1 << (i * n + j);
+        
         if (visitedMask & bit) return false;
         
         // Character mismatch
