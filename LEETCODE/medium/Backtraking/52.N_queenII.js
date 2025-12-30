@@ -92,6 +92,58 @@ function totalNQueensOptimized(n) {
 // console.log(totalNQueensOptimized(4));
 
 
+
+// stack approach
+function totalNQueensStack(n) {
+ const results = [];
+
+    const row = new Array(n).fill('.');
+
+    const stringify = (stack) => {
+        return stack.map((i) => {
+            row[i] = 'Q';
+            const value = row.join('');
+            row[i] = '.';
+            return value;
+        });
+    };
+
+    const isValidColumnForNextRow = (stack, col) => {
+        let leftDiagCol = col - 1;
+        let rightDiagCol = col + 1;
+
+        for (let i = stack.length - 1; i >= 0; i--) {
+            if (stack[i] === col || stack[i] === leftDiagCol-- || stack[i] === rightDiagCol++) {
+                return false;
+            }
+        }
+
+        return true;
+    };
+
+
+    const backtrack = (stack) => {
+        if (stack.length === n) {
+            results.push(stringify(stack));
+            return;
+        }
+
+        for (let col = 0; col < n; col++) {
+            if (isValidColumnForNextRow(stack, col)) {
+                stack.push(col);
+                backtrack(stack);
+                stack.pop();
+            }
+        }
+    };
+
+    backtrack([]);
+    return results.length;
+}
+
+
+console.log(totalNQueensStack(4));
+
 // TODO: bitmasking approach
 function totalNQueensBitmask(n) {
     let count = 0;
