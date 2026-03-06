@@ -30,8 +30,8 @@ def findDuplicate(nums: list[int]) -> int:
 # Example usage:
 nums = [1,3,5,4,2,2]
 # Output: 2 (duplicate number)/
-# print(" NUMS:-- ", nums)
-# print('Returns: - ',findDuplicate(nums))
+print(" NUMS:-- ", nums)
+print('Returns: - ',findDuplicate(nums))
 
 
 """
