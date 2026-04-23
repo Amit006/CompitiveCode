@@ -17,9 +17,6 @@ var distance = function (nums) {
             prefixSum += indices[j];
         }
 
-        console.log(" prefixSum: ", prefixSum);
-        console.log(" result: ", result);
-
         let suffixSum = 0;
 
         // right contribution: sum of (indices[k] - indices[j]) for all k > j
@@ -28,7 +25,7 @@ var distance = function (nums) {
             suffixSum += indices[j];
         }
 
-        
+
     }
 
     return result;
