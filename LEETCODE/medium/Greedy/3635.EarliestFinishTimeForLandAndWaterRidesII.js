@@ -40,20 +40,3 @@ var earliestFinishTime = function (
     );
     return Math.min(land_water, water_land);
 };
-
-console.log(
-    earliestFinishTime(
-        [1, 2, 3],  
-        [2, 2, 1],
-        [1, 2, 3],
-        [2, 2, 1]
-    )
-); // 5
-console.log(
-    earliestFinishTime(
-        [1, 2, 3],
-        [2, 2, 1],
-        [1, 2, 3],
-        [2, 2, 1]
-    )
-); // 5
