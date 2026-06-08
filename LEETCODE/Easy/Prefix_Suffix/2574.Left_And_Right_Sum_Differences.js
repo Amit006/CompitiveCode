@@ -34,7 +34,7 @@ console.log(leftRightDifference([1])); // Output: [0]
 
 
 
-// Optimized solution 
+// Optimized solution  
 
 /**
  * @param {number[]} nums
