@@ -51,3 +51,42 @@ var subsequencePairCount = function(nums) {
 console.log(subsequencePairCount([2, 3, 4, 6])); // Output: 5
 console.log(subsequencePairCount([1, 2, 3])); // Output: 4
 console.log(subsequencePairCount([1, 1, 1])); // Output: 4
+
+// recursion with memoization
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var subsequencePairCount = function(nums) {
+    const MOD = 1000000007n;
+    const n = nums.length;
+
+    const gcdTwo = (a, b) => b === 0 ? a : gcdTwo(b, a % b);
+
+    // memo[i] is a Map keyed by "g1,g2" -> count
+    const memo = Array.from({ length: n }, () => new Map());
+
+    function solve(i, g1, g2) {
+        if (i === n) {
+            return (g1 !== 0 && g1 === g2) ? 1n : 0n;
+        }
+
+        const key = g1 * 201 + g2;
+        const cached = memo[i].get(key);
+        if (cached !== undefined) return cached;
+
+        const skip = solve(i + 1, g1, g2);
+        const toA  = solve(i + 1, gcdTwo(g1, nums[i]), g2);
+        const toB  = solve(i + 1, g1, gcdTwo(g2, nums[i]));
+
+        const result = (skip + toA + toB) % MOD;
+        memo[i].set(key, result);
+        return result;
+    }
+
+    return Number(solve(0, 0, 0));
+};
+
+console.log(subsequencePairCount([2, 3, 4, 6])); // Output: 5
+console.log(subsequencePairCount([1, 2, 3]));   // Output: 4
+console.log(subsequencePairCount([1, 1, 1]));   // Output: 4
